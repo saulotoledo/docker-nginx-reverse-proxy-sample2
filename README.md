@@ -10,18 +10,22 @@ Create network for running the containers:
 docker network create nginx-rev-proxy-sample-net
 ```
 
-Prepare the database:
+Build and deploy the database:
 
 ```
-docker volume create nginx-rev-proxy-sample-db-vol
-docker run --name db -d \
+docker build -t saulotoledo/node-app-course-list-db db
+docker push saulotoledo/node-app-course-list-db
+```
+
+Starting the database container.
+
+```
+docker run -d \
+       --name db \
        --restart=always \
-       -e MYSQL_DATABASE=sample-db \
-       -e MYSQL_ROOT_PASSWORD=root \
        --net nginx-rev-proxy-sample-net \
        -v "nginx-rev-proxy-sample-db-vol:/var/lib/mysql" \
-       -v "$(pwd)/db/init.sql:/docker-entrypoint-initdb.d/init.sql" \
-       mysql:5.7 --innodb-use-native-aio=0
+       saulotoledo/node-app-course-list-db
 ```
 
 Build and deploy the application container (replace `saulotoledo` with your Docker Hub. You need an account in Docker Hub and must be signed up to push images. If you do not know how to do it, please follow [this instructions](https://docs.docker.com/docker-hub/)):
