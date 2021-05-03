@@ -2,7 +2,17 @@
 
 The project contains a sample application in Node.js running behind an Nginx reverse proxy.
 
-## Steps to run the application
+## Running the application with docker-compose
+
+Just run:
+
+```
+docker-compose up
+```
+
+## Running the application manually
+
+Follow the steps below. For simplicity reasons we are using a single network in this example.
 
 Create network for running the containers:
 
@@ -53,7 +63,7 @@ Start the application proxy:
 ```
 docker run -d \
        --name node-app-nginx-proxy \
-       -p "8080:80" \
+       -p "8000:80" \
        --net nginx-rev-proxy-sample-net \
        saulotoledo/node-app-course-list-nginx
 ```
